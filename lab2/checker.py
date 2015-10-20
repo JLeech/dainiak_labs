@@ -11,12 +11,14 @@ with open(inputFilename, 'r') as infile:
         numberLines.append( list(map(lambda s : int(s,2), line.strip().split())))
 
 def checkSolution( numberLines ):
+    len(numberLines)
     if len(numberLines) < 2 or len(numberLines[0]) != 2 or len(numberLines[-1]) != 1:
         return 1
     
     product = numberLines[0][0] * numberLines[0][1]
     for line in numberLines[1:]:
         if sum( line ) != product:
+            print(line)
             return 2
     
     for line, nextline in zip( numberLines[1:-2], numberLines[2:-1] ):
@@ -34,4 +36,5 @@ result = checkSolution( numberLines )
 if result == 0:
     print( 'Correct solution' )
 else:
+    print (result)
     print( 'Wrong solution' )
