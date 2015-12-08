@@ -36,10 +36,11 @@ def use_trick_for_numbers(numbers):
 		# проксорить биты
 		xor_string = str(current_digit%2) + xor_string
 		# посмотреть на переполнение
-		if current_digit > 1 :
+		if current_digit > 1:
 			overflow_digit = 1 
 		else:
 			overflow_digit = 0
+		# overflow_digit = 1 if current_digit>1 else 0
 		overflow_string = str(overflow_digit) + overflow_string
 	return [overflow_string,xor_string]
 
@@ -63,10 +64,7 @@ def process_numbers(numbers):
 		return str( sum ([ int(number,2) for number in counted_numbers ]) )
 
 
-#fir_number, sec_number = get_2_random_numbers(16)
-
-fir_number = 17
-sec_number = 31
+fir_number, sec_number = get_2_random_numbers(16)
 
 write_to_file( [ to_bit_string(current_number) for current_number in [fir_number,sec_number] ])
 shifted_numbers =  get_shifted_numbers(fir_number,sec_number)

@@ -7,7 +7,7 @@ from sympy import *
 from sympy.matrices import Matrix
 
 # умножение матрицы на вектор.
-# если всё раскомментировать, то можно посмтреть
+# если всё раскомментировать, то можно посмотреть
 # на символьный детерминант
 
 def make_computations(matrix,values):
