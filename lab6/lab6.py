@@ -5,8 +5,9 @@ class Node:
   sub_nodes = []
   weight = 0.0
 
-
+# этот метод генерирует pulp_script.py, который решает задачу минимизации
 def to_pulp_script(nodes):
+  # метод для печати результатов
   script = "from pulp import * \n"
   script += "import string \n"
   script += "def print_result(result) : \n"
@@ -19,20 +20,22 @@ def to_pulp_script(nodes):
 
   script += "task = LpProblem(\"prob1\", LpMinimize)\n"
   variables = string.ascii_lowercase[::-1]
+  # задание переменных в уравнении минимизации
   for index, node in enumerate(nodes) :
     script += str(variables[index]) + " = LpVariable(\"" + str(variables[index]) + "\",0,1)\n"
   
   script += "\ntask += "
+  # задание многочлена для минимизации
   for index, node in enumerate(nodes) :
     script += str(node.weight) + "*" + str(variables[index]) + " + "
 
   script = script[:-2]
-
+  # задание огарничений на минимизацию
   for index, node in enumerate(nodes) :    
     for sub_node in node.sub_nodes :
       script += "\ntask += "
       script += str(variables[index]) + "+" + str(variables[sub_node]) + " >= 1"
-
+  # решение и вывод результата
   script += "\nGLPK().solve(task)\n"
   script += "print_result(task)"
 
@@ -45,16 +48,18 @@ def read_data(file_name):
   f = open(file_name,'r') 
   nodes_count = 0
   positions = []
+  # определение количества нод
   for line in f : 
     positions.append( len( [ int(position) for position in line.strip().split(" ")] ) )
   nodes_count = positions.count(1)
-  
 
   sub_nodes = []
   nodes = []
   node_position = 0
   for time in  range(nodes_count):
     sub_nodes.append([])
+  
+  # заполнение массива из нод данными
   f = open(file_name,'r') 
   for line in f :
     positions = [ int(position) for position in line.strip().split(" ")]
@@ -71,25 +76,3 @@ def read_data(file_name):
   return nodes
 
 to_pulp_script( read_data("input.txt") )
-
-# from pulp import * 
-
-# prob = LpProblem("test1", LpMinimize) 
-
-# # Variables 
-# x = LpVariable("x", 0, 10) 
-# y = LpVariable("y", 0, 10) 
-
-# # Objective 
-# prob += x + 4*y
-
-# # Constraints 
-# prob += x+y >= 5 
-
-# GLPK().solve(prob) 
-
-# # Solution 
-# for v in prob.variables(): 
-#   print (v.name, "=", v.varValue )
-
-# print ("objective=", value(prob.objective)  )
